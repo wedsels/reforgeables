@@ -87,6 +87,13 @@ internal class EndlessItem : GlobalItem {
     }
 }
 
+internal class EndlessProjectile : GlobalProjectile {
+    public override void OnSpawn( Projectile projectile, IEntitySource source ) {
+        if ( source is EntitySource_ItemUse_WithAmmo s && s.Item.TryGetGlobalItem( out EndlessItem e ) && e.Endless )
+            projectile.noDropItem = true;
+    }
+}
+
 internal class RecipeSystem : ModSystem {
     public override void PostWorldLoad() => Main.recipe.ToList().ForEach( x => { if ( x.Mod is Reforgeables ) x.createItem.GetGlobalItem< EndlessItem >().SetEndless( x.createItem ); } );
     public override void AddRecipes() {

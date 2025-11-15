@@ -19,7 +19,11 @@ internal class PrefixItem : GlobalItem {
         	item.useTime = 100;
     }
 
-    public override float UseSpeedMultiplier( Item item, Player player ) => ( 1.0f + 1.0f - player.ChooseAmmo( item )?.useTime / 100.0f ) ?? 1.0f;
+    public override float UseSpeedMultiplier( Item item, Player player ) {
+		if ( item.useAmmo > AmmoID.None && player.ChooseAmmo( item ) is Item ammo )
+			return 1.0f + 1.0f - ammo.useTime / 100.0f;
+		return 1.0f;
+	}
 }
 
 internal class System : ModSystem {
