@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
@@ -14,6 +15,9 @@ internal class PrefixItem : GlobalItem {
 
 		foreach ( var i in item.GetPrefixCategories() )
 			Categories[ item.DamageType ].Add( i );
+
+		if ( item.ammo > AmmoID.None && item.DamageType is DefaultDamageClass )
+			item.DamageType = DamageClass.Ranged;
 
 		if ( item.ammo > AmmoID.None )
         	item.useTime = 100;
